@@ -2,6 +2,10 @@
 
 自己的相册自己管。一款离线使用，可自由排版的私人相簿。
 
+# 官网
+
+[小西瓜相册](http://weijiang.work)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
