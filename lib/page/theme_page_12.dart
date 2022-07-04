@@ -4,18 +4,18 @@ import 'package:photo_album/config/text_style_config.dart';
 import 'package:photo_album/model/album_model.dart';
 import 'package:provider/provider.dart';
 
-class ThemePage7 extends StatefulWidget {
+class ThemePage12 extends StatefulWidget {
   static const int textLength = 1;
-  static const int photoLength = 10;
+  static const int photoLength = 7;
 
   final int albumPageIndex;
-  const ThemePage7({Key? key, required this.albumPageIndex}) : super(key: key);
+  const ThemePage12({Key? key, required this.albumPageIndex}) : super(key: key);
 
   @override
-  _ThemePage7State createState() => _ThemePage7State();
+  _ThemePage12State createState() => _ThemePage12State();
 }
 
-class _ThemePage7State extends State<ThemePage7> {
+class _ThemePage12State extends State<ThemePage12> {
 
   // 是否显示标题栏
   bool visibleTitle = true;
@@ -86,7 +86,7 @@ class _ThemePage7State extends State<ThemePage7> {
                     child: Column(
                       children: [
                         Expanded(
-                          flex: 1,
+                          flex: 16,
                           child: Row (
                             children: [
                               Expanded(
@@ -132,7 +132,7 @@ class _ThemePage7State extends State<ThemePage7> {
                         ),
                         const SizedBox(height: 10),
                         Expanded(
-                          flex: 1,
+                          flex: 9,
                           child: Row (
                             children: [
                               Expanded(
@@ -168,52 +168,6 @@ class _ThemePage7State extends State<ThemePage7> {
                                     border: Border.all(color: Colors.white, width: 10),
                                     image: DecorationImage(
                                       image: context.watch<AlbumViewModel>().albumPageImage(widget.albumPageIndex, 6),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Expanded(
-                          flex: 1,
-                          child: Row (
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  height: double.infinity,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white, width: 10),
-                                    image: DecorationImage(
-                                      image: context.watch<AlbumViewModel>().albumPageImage(widget.albumPageIndex, 7),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Container(
-                                  height: double.infinity,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white, width: 10),
-                                    image: DecorationImage(
-                                      image: context.watch<AlbumViewModel>().albumPageImage(widget.albumPageIndex, 8),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Container(
-                                  height: double.infinity,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white, width: 10),
-                                    image: DecorationImage(
-                                      image: context.watch<AlbumViewModel>().albumPageImage(widget.albumPageIndex, 9),
                                       fit: BoxFit.cover,
                                     ),
                                   ),

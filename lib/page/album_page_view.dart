@@ -8,6 +8,7 @@ import 'package:photo_album/page/theme_page.dart';
 import 'package:photo_album/page/welcome_page.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
+import 'package:dialogs/dialogs.dart';
 
 class AlbumPageView extends StatefulWidget {
   const AlbumPageView({Key? key}) : super(key: key);
@@ -235,6 +236,7 @@ class _AlbumMainPageState extends State<AlbumMainPage> {
   final PageController _pageController = PageController(initialPage: 0, keepPage: false);
   bool showChooseTheme = false;
   int currentPageNum = 0;
+  final TextEditingController _pageNumTextEditingController = TextEditingController(text: "1");
 
   void setCurrentPageNum(int pageNum) {
     setState(() {
@@ -286,7 +288,8 @@ class _AlbumMainPageState extends State<AlbumMainPage> {
   String pageInfoText() {
     int pageNum = currentPageNum + 1;
     int total = context.read<AlbumViewModel>().pageTotalSize;
-    return pageNum.toString() + "\n" + total.toString();
+    _pageNumTextEditingController.text = pageNum.toString();
+    return "$pageNum\n$total";
   }
 
   @override
@@ -296,9 +299,10 @@ class _AlbumMainPageState extends State<AlbumMainPage> {
   }
 
   List<Widget> buildList() {
+    // 主题列表
+    List<int> themeList = [1, 2, 4, 5, 11, 10, 3, 6, 9, 8, 12, 13, 7];
     List<Widget> list = [];
-    for(int i = 0; i < 10; i++) {
-      int labelIndex = i + 1;
+    for(int i in themeList) {
       list.add(
           RawMaterialButton(
             padding: const EdgeInsets.all(4),
@@ -309,16 +313,15 @@ class _AlbumMainPageState extends State<AlbumMainPage> {
                 height: double.infinity,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                image: AssetImage("static/image/theme_$labelIndex.png"),
+                image: AssetImage("static/image/theme_$i.png"),
               ),
             ),
             onPressed: () {
               // 选择模板
-              addPage(labelIndex.toString());
+              addPage(i.toString());
             },
           )
       );
-
     }
     return list;
   }
@@ -343,7 +346,7 @@ class _AlbumMainPageState extends State<AlbumMainPage> {
           },
         ),
         Positioned(
-            right: 32,
+            right: 16,
             height: 700,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -357,7 +360,7 @@ class _AlbumMainPageState extends State<AlbumMainPage> {
                     height: double.infinity,
                     child: ListView(
                       scrollDirection: Axis.vertical,
-                      itemExtent: 114,
+                      itemExtent: 100,
                       physics: const AlwaysScrollableScrollPhysics(),
                       children: buildList(),
                     ),
@@ -371,35 +374,18 @@ class _AlbumMainPageState extends State<AlbumMainPage> {
                     FloatingActionButton(
                       backgroundColor: Colors.deepOrangeAccent,
                       heroTag: null,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Text(pageInfoText(), textAlign: TextAlign.center),
-                          Container(color: Colors.white,height: 1, margin: const EdgeInsets.all(10),),
-                        ],
-                      ),
-                      tooltip: "首页",
-                      onPressed: (){
-                        _pageController.animateToPage(0, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    FloatingActionButton(
-                      backgroundColor: Colors.deepOrangeAccent,
-                      heroTag: null,
-                      child: const Icon(Icons.settings),
                       tooltip: "配置",
                       onPressed: (){
                         // 设置组件页码
                         setPageInfo();
                         Scaffold.of(context).openEndDrawer();
                       },
+                      child: const Icon(Icons.settings),
                     ),
                     const SizedBox(height: 10),
                     FloatingActionButton(
                       backgroundColor: Colors.deepOrangeAccent,
                       heroTag: null,
-                      child: const Icon(Icons.add),
                       tooltip: "插入",
                       onPressed: (){
                         if(!showChooseTheme) {
@@ -408,38 +394,116 @@ class _AlbumMainPageState extends State<AlbumMainPage> {
                         }
                         setShowChooseTheme(showChooseTheme ? false : true);
                       },
+                      child: const Icon(Icons.add),
                     ),
                     const SizedBox(height: 10),
                     FloatingActionButton(
                       backgroundColor: Colors.deepOrangeAccent,
                       heroTag: null,
-                      child: const Icon(Icons.remove),
                       tooltip: "删除",
-                      onPressed: (){
-                        // 设置组件页码
-                        setPageInfo();
-                        removePage();
-                      },
+                      onPressed: () => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('请确认'),
+                          content: const Text('确认删除？'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Cancel'),
+                              child: const Text('取消'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                // 设置组件页码
+                                setPageInfo();
+                                removePage();
+                                Navigator.pop(context, 'OK');
+                              },
+                              child: const Text('确认'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      child: const Icon(Icons.remove),
                     ),
                     const SizedBox(height: 10),
                     FloatingActionButton(
                       backgroundColor: Colors.deepOrangeAccent,
                       heroTag: null,
-                      child: const Icon(Icons.arrow_back),
+                      tooltip: "首页",
+                      onPressed: (){
+                        _pageController.animateToPage(0, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Text(pageInfoText(), textAlign: TextAlign.center),
+                          Container(color: Colors.white,height: 1, margin: const EdgeInsets.all(10),),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    FloatingActionButton(
+                      backgroundColor: Colors.deepOrangeAccent,
+                      heroTag: null,
+                      tooltip: "跳转",
+                      onPressed: () => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('请输入要跳转的页码'),
+                          content: TextField(
+                            keyboardType: TextInputType.number,
+                            maxLength: 8,
+                            maxLines: 1,
+                            autofocus: true,
+                            controller: _pageNumTextEditingController,
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Cancel'),
+                              child: const Text('取消'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                String number = _pageNumTextEditingController.text;
+                                if(number.isNotEmpty) {
+                                  int? page = int.tryParse(number);
+                                  if(null != page) {
+                                    int total = context.read<AlbumViewModel>().pageTotalSize;
+                                    if(page > total) {
+                                      page = total;
+                                    }
+                                    _pageNumTextEditingController.text = page.toString();
+                                    _pageController.animateToPage(page - 1, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+                                    Navigator.pop(context, 'OK');
+                                  }
+                                }
+                              },
+                              child: const Text('确认'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      child: const Icon(Icons.flip),
+                    ),
+                    const SizedBox(height: 10),
+                    FloatingActionButton(
+                      backgroundColor: Colors.deepOrangeAccent,
+                      heroTag: null,
                       tooltip: "上一页",
                       onPressed: (){
                         _pageController.previousPage(duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
                       },
+                      child: const Icon(Icons.arrow_back),
                     ),
                     const SizedBox(height: 10),
                     FloatingActionButton(
                       backgroundColor: Colors.deepOrangeAccent,
                       heroTag: null,
-                      child: const Icon(Icons.arrow_forward),
                       tooltip: "下一页",
                       onPressed: (){
                         _pageController.nextPage(duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
                       },
+                      child: const Icon(Icons.arrow_forward),
                     ),
                   ],
                 )

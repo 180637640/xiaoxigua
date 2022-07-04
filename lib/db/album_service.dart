@@ -44,7 +44,7 @@ class AlbumService {
 
   /// 样式路径
   static String albumThemePath() {
-    return albumPath + "/theme/";
+    return "$albumPath/theme/";
   }
 
   /// 初始化相册
@@ -61,14 +61,14 @@ class AlbumService {
     }
     File file = File('$albumPath/index.json');
 
-    if(!file.existsSync()) {
+    if(!await file.exists()) {
       // 如果文件不存在则创建默认相册
       String id = UF.getRandomId();
       String dateTime = DateTime.now().toString();
       List list = [Album("时光印记", "小西瓜于二〇二〇年一月三日开始留影", [], [], id, dateTime, dateTime)];
       String jsonText = jsonEncode(list);
       await file.writeAsString(jsonText);
-      debugPrint("相册初始化:" + jsonText);
+      debugPrint("相册初始化:$jsonText");
     }
     String jsonText = await file.readAsString();
     debugPrint(jsonText);
@@ -94,7 +94,7 @@ class AlbumService {
       List list = [AlbumPage("1", albumId, [], [], id, dateTime, dateTime)];
       String jsonText = jsonEncode(list);
       await file.writeAsString(jsonText);
-      debugPrint("相册页初始化:" + jsonText);
+      debugPrint("相册页初始化:$jsonText");
     }
     String jsonText = await file.readAsString();
     if(jsonText.isEmpty) {
@@ -167,8 +167,8 @@ class AlbumService {
     String path = file.path;
     String extName = path.substring(path.lastIndexOf("."));
     String newFileName = UF.getRandomId() + extName;
-    file.copySync(albumPath + "/$albumId" + "/$newFileName");
-    debugPrint("uploadFile:" + newFileName);
+    file.copySync("$albumPath/$albumId/$newFileName");
+    debugPrint("uploadFile:$newFileName");
     return newFileName;
   }
 

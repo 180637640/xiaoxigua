@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:photo_album/page/theme_page_1.dart';
 import 'package:photo_album/page/theme_page_10.dart';
+import 'package:photo_album/page/theme_page_11.dart';
+import 'package:photo_album/page/theme_page_12.dart';
+import 'package:photo_album/page/theme_page_13.dart';
 import 'package:photo_album/page/theme_page_2.dart';
 import 'package:photo_album/page/theme_page_3.dart';
 import 'package:photo_album/page/theme_page_4.dart';
@@ -44,6 +47,15 @@ class ThemePage {
       }
       case "10" : {
         return ThemePage10(albumPageIndex: index);
+      }
+      case "11" : {
+        return ThemePage11(albumPageIndex: index);
+      }
+      case "12" : {
+        return ThemePage12(albumPageIndex: index);
+      }
+      case "13" : {
+        return ThemePage13(albumPageIndex: index);
       }
       default : {
         return ThemePage1(albumPageIndex: index);
@@ -90,6 +102,15 @@ class ThemePage {
       }
       case "10" : {
         return isText ? ThemePage10.textLength : ThemePage10.photoLength;
+      }
+      case "11" : {
+        return isText ? ThemePage11.textLength : ThemePage11.photoLength;
+      }
+      case "12" : {
+        return isText ? ThemePage12.textLength : ThemePage12.photoLength;
+      }
+      case "13" : {
+        return isText ? ThemePage13.textLength : ThemePage13.photoLength;
       }
       default : {
         return 0;

@@ -151,7 +151,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 Visibility(
                   visible: AlbumService.getAlbumPath().isNotEmpty,
                     child: Positioned(
-                      right: 32,
+                      right: 16,
                       child: FloatingActionButton(
                         backgroundColor: Colors.deepOrangeAccent,
                         heroTag: null,

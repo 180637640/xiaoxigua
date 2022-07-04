@@ -4,18 +4,18 @@ import 'package:photo_album/config/text_style_config.dart';
 import 'package:photo_album/model/album_model.dart';
 import 'package:provider/provider.dart';
 
-class ThemePage2 extends StatefulWidget {
-  static const int textLength = 3;
-  static const int photoLength = 1;
-  
+class ThemePage11 extends StatefulWidget {
+  static const int textLength = 1;
+  static const int photoLength = 2;
+
   final int albumPageIndex;
-  const ThemePage2({Key? key, required this.albumPageIndex}) : super(key: key);
+  const ThemePage11({Key? key, required this.albumPageIndex}) : super(key: key);
 
   @override
-  _ThemePage2State createState() => _ThemePage2State();
+  _ThemePage11State createState() => _ThemePage11State();
 }
 
-class _ThemePage2State extends State<ThemePage2> {
+class _ThemePage11State extends State<ThemePage11> {
 
   // 是否显示标题栏
   bool visibleTitle = true;
@@ -81,27 +81,22 @@ class _ThemePage2State extends State<ThemePage2> {
                   child: Container(
                     height: double.infinity,
                     width: double.infinity,
-                    padding: const EdgeInsets.all(100),
+                    padding: const EdgeInsets.all(40),
                     alignment: Alignment.center,
-                    child: Column(
+                    child: Row(
                       children: [
-                        Expanded(child: Container()),
-                        Text(
-                          context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 1),
-                          textAlign: TextAlign.center,
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyleConfig.h2,
+                        Expanded(
+                          child: Container(
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white, width: 10),
+                              image: DecorationImage(
+                                image: context.watch<AlbumViewModel>().albumPageImage(widget.albumPageIndex, 1),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
-                        const SizedBox(height: 20),
-                        Text(
-                          context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 2),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyleConfig.h3,
-                        ),
-                        Expanded(child: Container()),
                       ],
                     ),
                   )

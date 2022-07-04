@@ -16,6 +16,34 @@ class ThemePage10 extends StatefulWidget {
 }
 
 class _ThemePage10State extends State<ThemePage10> {
+
+  // 是否显示标题栏
+  bool visibleTitle = true;
+
+  void initTitleState() {
+    if(!mounted) {
+      return;
+    }
+    String title = Provider.of<AlbumViewModel>(context, listen: false).albumPageText(widget.albumPageIndex, 0);
+    if(title.isEmpty) {
+      setState(() {
+        visibleTitle = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () => initTitleState());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Future.delayed(Duration.zero, () => initTitleState());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,32 +58,39 @@ class _ThemePage10State extends State<ThemePage10> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: 60,
-                height: double.infinity,
-                padding: const EdgeInsets.all(10),
-                alignment: Alignment.center,
-                child: Text(
-                  context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 0),
-                  textAlign: TextAlign.center,
-                  style: TextStyleConfig.h4,
-                  softWrap: true,
+              Visibility(
+                visible: visibleTitle,
+                child: Container(
+                  width: 60,
+                  height: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  child: Text(
+                    context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 0),
+                    textAlign: TextAlign.center,
+                    style: TextStyleConfig.h4,
+                    softWrap: true,
+                  ),
                 ),
               ),
-              Container(height: double.infinity, width: 2, color: Colors.black12),
+              Visibility(
+                visible: visibleTitle,
+                child: Container(height: double.infinity, width: 2, color: Colors.black12),
+              ),
               Expanded(
                   child: Container(
                     height: double.infinity,
                     width: double.infinity,
                     padding: const EdgeInsets.all(40),
                     alignment: Alignment.center,
-                    child: Column(
+                    child: Row(
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Row (
+                          child: Column (
                             children: [
                               Expanded(
+                                flex: 6,
                                 child: Container(
                                   height: double.infinity,
                                   decoration: BoxDecoration(
@@ -69,12 +104,12 @@ class _ThemePage10State extends State<ThemePage10> {
                               ),
                               const SizedBox(width: 10),
                               Expanded(
-                                flex: 1,
+                                flex: 4,
                                 child: Container(
                                   padding: const EdgeInsets.fromLTRB(80, 20, 80, 20),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 1),
+                                    context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 2),
                                     textAlign: TextAlign.center,
                                     maxLines: 6,
                                     overflow: TextOverflow.ellipsis,
@@ -88,15 +123,15 @@ class _ThemePage10State extends State<ThemePage10> {
                         const SizedBox(height: 10),
                         Expanded(
                           flex: 1,
-                          child: Row (
+                          child: Column (
                             children: [
                               Expanded(
-                                flex: 1,
+                                flex: 4,
                                 child: Container(
                                   padding: const EdgeInsets.fromLTRB(80, 20, 80, 20),
                                   alignment: Alignment.center,
                                   child: Text(
-                                    context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 2),
+                                    context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 1),
                                     textAlign: TextAlign.center,
                                     maxLines: 6,
                                     overflow: TextOverflow.ellipsis,
@@ -106,6 +141,7 @@ class _ThemePage10State extends State<ThemePage10> {
                               ),
                               const SizedBox(width: 10),
                               Expanded(
+                                flex: 6,
                                 child: Container(
                                   height: double.infinity,
                                   decoration: BoxDecoration(

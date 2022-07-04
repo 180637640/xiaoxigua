@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "work.weijiang" "\0"
-            VALUE "FileDescription", "自己的相册自己管。一款离线使用，可自由排版的私人相簿。" "\0"
+            VALUE "CompanyName", "com.example" "\0"
+            VALUE "FileDescription", "photo_album" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "小西瓜相册" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 work.weijiang. All rights reserved." "\0"
+            VALUE "InternalName", "photo_album" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
             VALUE "OriginalFilename", "photo_album.exe" "\0"
-            VALUE "ProductName", "小西瓜相册" "\0"
+            VALUE "ProductName", "photo_album" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

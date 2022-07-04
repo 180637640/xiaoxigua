@@ -16,6 +16,34 @@ class ThemePage6 extends StatefulWidget {
 }
 
 class _ThemePage6State extends State<ThemePage6> {
+
+  // 是否显示标题栏
+  bool visibleTitle = true;
+
+  void initTitleState() {
+    if(!mounted) {
+      return;
+    }
+    String title = Provider.of<AlbumViewModel>(context, listen: false).albumPageText(widget.albumPageIndex, 0);
+    if(title.isEmpty) {
+      setState(() {
+        visibleTitle = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () => initTitleState());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Future.delayed(Duration.zero, () => initTitleState());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,19 +58,25 @@ class _ThemePage6State extends State<ThemePage6> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: 60,
-                height: double.infinity,
-                padding: const EdgeInsets.all(10),
-                alignment: Alignment.center,
-                child: Text(
-                  context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 0),
-                  textAlign: TextAlign.center,
-                  style: TextStyleConfig.h4,
-                  softWrap: true,
+              Visibility(
+                visible: visibleTitle,
+                child: Container(
+                  width: 60,
+                  height: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  child: Text(
+                    context.watch<AlbumViewModel>().albumPageText(widget.albumPageIndex, 0),
+                    textAlign: TextAlign.center,
+                    style: TextStyleConfig.h4,
+                    softWrap: true,
+                  ),
                 ),
               ),
-              Container(height: double.infinity, width: 2, color: Colors.black12),
+              Visibility(
+                visible: visibleTitle,
+                child: Container(height: double.infinity, width: 2, color: Colors.black12),
+              ),
               Expanded(
                   child: Container(
                     height: double.infinity,
@@ -85,7 +119,7 @@ class _ThemePage6State extends State<ThemePage6> {
                         ),
                         Container(width: 10),
                         Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: Container(
                             height: double.infinity,
                             decoration: BoxDecoration(
